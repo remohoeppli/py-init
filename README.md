@@ -147,4 +147,6 @@ Updates all the packages installed after reboot. This copies a script to `/home/
 
 ---
 
-## [Buy me a coffee if you like this tool.](https://www.buymeacoffee.com/remohoeppli)
+## By me a coffee if you like this tool
+
+<a href="https://www.buymeacoffee.com/remohoeppli" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;" ></a>
