@@ -1,0 +1,7 @@
+#!/usr/bin/python3
+
+from py_init.config_parser import read_config
+from py_init.executor import Executor
+
+e = Executor(config=read_config())
+e.install()

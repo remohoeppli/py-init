@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+import subprocess
+
+output = subprocess.run(
+    ["/bin/bash", "-c", "apt update && apt -y full-upgrade && apt -y autoremove"],
+    capture_output=True,
+    text=True,
+)
+
+# remove startup command from /etc/rc.local
+rc = "/etc/rc.local"
+
+f = open(rc, "r")
+new_file_content = ""
+for line in f:
+    stripped_line = line.strip()
+    new_line = stripped_line.replace("/home/pi/temp/updating", "")
+    new_file_content += f"{new_line}\n"
+f.close()
+
+# write new file content to file
+f = open(rc, "w")
+f.write(new_file_content)
+f.close()

@@ -1,0 +1,35 @@
+{
+    "hostname": "newhostname",
+    "swap_mb": 1024,
+    "expand_fs": true,
+    "wifi_settings": {
+        "country": "CH",
+        "ssid": "mywifiname",
+        "psk": "mywifipassword"
+    },
+    "network_config": [
+        {
+            "interface": "eth0",
+            "ip_address": "192.168.1.105/24",
+            "routers": "192.168.1.1",
+            "domain_name_servers": [
+                "8.8.8.8",
+                "8.8.4.4"
+            ]
+        },
+        {
+            "interface": "wlan0",
+            "ip_address": "192.168.1.106/24",
+            "routers": "192.168.1.1",
+            "domain_name_servers": [
+                "8.8.8.8",
+                "8.8.4.4"
+            ]
+        }
+    ],
+    "set_locale_en_us": true,
+    "reduce_journald_size": true,
+    "new_user_password": "newpassword",
+    "disable_password_login": false,
+    "update_packages": true
+}
