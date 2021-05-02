@@ -9,7 +9,7 @@ The main aim for this tool is to automate configuration steps that I usually tak
 This tool needs python3 installed.
 
 1. Clone this repository
-2. Change the settings you need in the [config.json](config.json), remove the settings you don't want to edit from it. (In case you screw up, there is a copy under [config.json.default](config.json.default))
+2. Change the settings you need in the [config.json](config.json), remove the settings you don't want to configure from it. (In case you screw up, there is a copy under [config.json.default](config.json.default))
 3. Run the tool using the following command
    ```bash
    sudo ./configure
