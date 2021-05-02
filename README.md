@@ -4,8 +4,6 @@ A small python based initialization tool to kickstart Raspberry Pi configuration
 
 The main aim for this tool is to automate configuration steps that I usually take, everytime I set up a new Raspberry Pi. I hope it helps you too.
 
-[[_TOC_]]
-
 ## manual
 
 This tool needs python3 installed.
@@ -53,11 +51,15 @@ This tool needs python3 installed.
 }
 ```
 
+---
+
 ### hostname
 
 type: string
 
 New hostname to set.
+
+---
 
 ### swap_mb
 
@@ -65,11 +67,15 @@ type: int
 
 Change size of swap (default: 100).
 
+---
+
 ### expand_fs
 
 type: bool
 
 Expand root filesystem `/`.
+
+---
 
 ### wifi_settings
 
@@ -82,6 +88,8 @@ Expand root filesystem `/`.
 Configuring the wifi of your Raspberry Pi.
 
 - For the right value of `country` find the correct alpha-2 code [here](https://en.wikipedia.org/wiki/ISO_3166-1).
+
+---
 
 ### network_config
 
@@ -97,11 +105,15 @@ Configuring static IP addresses on your Raspberry Pi.
 - For the right value of `interface` see `ifconfig`-command.
 - Write `ip_address`in CIDR-format including subnet information.
 
+---
+
 ### set_locale_en_us
 
 type: bool
 
 Setting the locale settings to en_us (default: en_gb)
+
+---
 
 ### reduce_journald_size
 
@@ -109,17 +121,23 @@ type: bool
 
 Configuring journald to only use 50MB of storage.
 
+---
+
 ### new_password
 
 type: str
 
 Changing the password of the `pi`user.
 
+---
+
 ### disable_password_login
 
 type: bool
 
 Disabling the password login for the `pi`user. Only possible if `/home/pi/.ssh/authorized_keys`file exists and is not empty. Does overwrite the `new_password` parameter.
+
+---
 
 ### update_packages
 
