@@ -15,7 +15,7 @@ class Executor:
         self.__output.info("py-init configuration script")
 
     def __complete_message(self) -> None:
-        self.__output.passed("installation complete")
+        self.__output.info("installation complete")
 
     def __reboot_message(self) -> None:
         self.__output.info("please reboot the pi")
