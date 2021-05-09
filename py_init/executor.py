@@ -9,12 +9,15 @@ class Executor:
     def __init__(self, config: Init_Configuration):
         self.__output = Output()
         self.__config = config
+        self.__needs_reboot = False
 
     def __init_message(self) -> None:
         self.__output.info("py-init configuration script")
 
+    def __complete_message(self) -> None:
+        self.__output.info("installation complete")
+
     def __reboot_message(self) -> None:
-        self.__output.passed("installation complete")
         self.__output.info("please reboot the pi")
 
     def __execute(self, task: str, execution: Callable[[], None]) -> None:
@@ -33,6 +36,7 @@ class Executor:
         old_hostname = old_hostname.replace("\n", "").replace("\r", "")
         toolbox.write_to_file("/etc/hostname", new_hostname)
         toolbox.replace_string_in_file("/etc/hosts", old_hostname, new_hostname)
+        self.__needs_reboot = True
 
     def __set_swap_size(self) -> None:
         toolbox.copy_file("templates/dphys-swapfile", "/etc/dphys-swapfile")
@@ -41,9 +45,11 @@ class Executor:
             "CONF_SWAPSIZE=100",
             "CONF_SWAPSIZE=" + str(self.__config.swap_mb),
         )
+        self.__needs_reboot = True
 
     def __expand_rootfs(self) -> None:
         toolbox.call_bash_command("raspi-config --expand-rootfs > /dev/null 2>&1")
+        self.__needs_reboot = True
 
     def __set_wifi_settings(self) -> None:
         toolbox.copy_file(
@@ -66,6 +72,7 @@ class Executor:
                 str(self.__config.wifi_settings.psk),
             )
             toolbox.call_bash_command("rfkill unblock 0")
+        self.__needs_reboot = True
 
     def __set_network_settings(self) -> None:
         toolbox.copy_file("templates/dhcpcd.conf", "/etc/dhcpcd.conf")
@@ -84,18 +91,21 @@ class Executor:
                 f"static domain_name_servers={' '.join(network_config.domain_name_servers)}",
             )
             toolbox.append_to_file("/etc/dhcpcd.conf", "")
+        self.__needs_reboot = True
 
     def __set_locale_en_us(self) -> None:
         toolbox.copy_file("templates/locale.gen", "/etc/locale.gen")
         toolbox.copy_file("templates/locale", "/etc/default/locale")
         toolbox.call_bash_command("dpkg-reconfigure -f noninteractive locales")
         toolbox.check_and_append_to_file("/home/pi/.bashrc", "export LC_ALL=C")
+        self.__needs_reboot = True
 
     def __reduce_journald_size(self) -> None:
         toolbox.copy_file(
             "templates/journald.conf",
             "/etc/systemd/journald.conf",
         )
+        self.__needs_reboot = True
 
     def __change_password(self) -> None:
         toolbox.call_bash_command(
@@ -113,6 +123,7 @@ class Executor:
                 "/etc/rc.local", "exit 0", "/home/pi/temp/updating"
             )
             toolbox.append_to_file("/etc/rc.local", "exit 0")
+        self.__needs_reboot = True
 
     def install(self) -> None:
         self.__init_message()
@@ -176,4 +187,7 @@ class Executor:
             )
             self.__output.info("updating packages after reboot")
 
-        self.__reboot_message()
+        self.__complete_message()
+
+        if self.__needs_reboot:
+            self.__reboot_message()
